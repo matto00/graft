@@ -1,0 +1,85 @@
+{
+  "harnesses": [
+    "claude-code"
+  ],
+  "project": {
+    "name": "graft",
+    "baseBranch": "main"
+  },
+  "ticketProvider": {
+    "kind": "linear",
+    "idExample": "ABC-123"
+  },
+  "specProvider": {
+    "kind": "openspec",
+    "changeDir": "openspec/changes/<CHANGE_NAME>",
+    "scaffoldCmd": "openspec new change \"<CHANGE_NAME>\"",
+    "applyCmd": "openspec instructions apply --change \"<CHANGE_NAME>\" --json",
+    "validateCmd": "openspec validate --change \"<CHANGE_NAME>\"",
+    "archiveCmd": "openspec archive \"<CHANGE_NAME>\" --yes"
+  },
+  "worktree": {
+    "base": ".concertino/worktrees",
+    "ports": {
+      "frontendBase": 3000,
+      "backendBase": 4000
+    },
+    "envFiles": [],
+    "hooks": []
+  },
+  "gates": [
+    {
+      "name": "lint",
+      "when": "always",
+      "command": "npm run lint"
+    },
+    {
+      "name": "test",
+      "when": "always",
+      "command": "npm test"
+    },
+    {
+      "name": "build",
+      "when": "always",
+      "command": "npm run build"
+    }
+  ],
+  "canonicalDocs": [
+    {
+      "path": "CONTRIBUTING.md",
+      "summary": "code-quality standard",
+      "bindTo": [
+        "executor",
+        "evaluator"
+      ],
+      "when": "always"
+    }
+  ],
+  "ui": {
+    "enabled": true,
+    "tool": "playwright",
+    "triggers": [
+      "src/**"
+    ],
+    "breakpoints": [
+      1280,
+      768,
+      0
+    ]
+  },
+  "budgets": {
+    "executionCycles": 3,
+    "skepticDesignRounds": 3,
+    "skepticFinalRounds": 2,
+    "debugAttempts": 2
+  },
+  "commitTrailer": "Co-Authored-By: Claude <noreply@anthropic.com>",
+  "devServers": {
+    "frontend": {
+      "cwd": ".",
+      "start": "PORT=$DEV_PORT npm run dev",
+      "health": "http://localhost:$DEV_PORT",
+      "timeoutSec": 60
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "concertino": "^0.1.1"
+  },
+  "devDependencies": {
+    "openspec": "^0.0.0"
+  }
+}
